@@ -110,6 +110,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 	void append(String str) {
 		ta.append(str);
 		ta.setCaretPosition(ta.getText().length() - 1);
+      
 	}
 	// called by the GUI is the connection failed
 	// we reset our buttons, label, textfield

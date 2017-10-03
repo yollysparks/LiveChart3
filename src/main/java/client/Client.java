@@ -9,6 +9,7 @@ import ca2.MessageChat;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -18,8 +19,8 @@ import java.util.Scanner;
  */
 public class Client {
     // for I/O
-	private ObjectInputStream sInput;		// to read from the socket
-	private ObjectOutputStream sOutput;		// to write on the socket
+	         private Scanner sInput;// to reed from socket
+		 private PrintWriter sOutput; // to write on the socket
 	private Socket socket;
 
 	// if I use a GUI or not
@@ -59,8 +60,8 @@ public class Client {
 		/* Creating both Data Stream */
 		try
 		{
-			sInput  = new ObjectInputStream(socket.getInputStream());
-			sOutput = new ObjectOutputStream(socket.getOutputStream());
+			sInput  = new Scanner(socket.getInputStream());
+			sOutput = new PrintWriter(socket.getOutputStream());
 		}
 		catch (IOException eIO) {
 			display("Exception creating new Input/output Streams: " + eIO);
@@ -69,17 +70,9 @@ public class Client {
 
 		// creates the Thread to listen from the server 
 		new ListenFromServer().start();
-		// Send our username to the server this is the only message that we
-		// will send as a String. All other messages will be MessageChat objects
-		try
-		{
-                 sOutput.writeObject(username);
-		}
-		catch (IOException eIO) {
-			display("Exception doing login : " + eIO);
-			disconnect();
-			return false;
-		}
+                     // Send our username to the server this is the only message that we
+                     // will send as a String. All other messages will be MessageChat objects
+                     sOutput.print(username);
 		// success we inform the caller that it worked
 		return true;
 	}
@@ -91,13 +84,8 @@ public class Client {
 			cg.append(msg + "\n");		// append to the ClientGUI JTextArea (or whatever)
 	}
 	
-	void sendMessage(MessageChat msg) {//to send message to the server
-		try {
-			sOutput.writeObject(msg);
-		}
-		catch(IOException e) {
-			display("Exception writing to server: " + e);
-		}
+	void sendMessage(MessageChat msg) { //to send message to the server
+            sOutput.print(msg);
 	}
 
 	private void disconnect() {
@@ -193,26 +181,16 @@ public class ListenFromServer extends Thread { // added public
                 @Override
 		public void run() {
 			while(true) {
-				try {
-					String msg = (String) sInput.readObject();
-					// if console mode print the message and add back the prompt
-					if(cg == null) {
-						System.out.println(msg);
-						System.out.print("> ");
-                                                }
-					else {
-						cg.append(msg);
-					}
-				}
-				catch(IOException e) {
-					display("Server has close the connection: " + e);
-					if(cg != null) 
-						cg.connectionFailed();
-					break;
-				}
-				// can't happen with a String object but need the catch anyhow
-				catch(ClassNotFoundException e2) {
-				}
+                            String msg = sInput.next(); // can't happen with a String object but need the catch anyhow
+                            // if console mode print the message and add back the prompt
+                            if(cg == null) {
+                                System.out.println(msg);
+                                System.out.print("> ");
+                            }
+                            else {
+                                cg.append(msg);
+                            }
+
 			}
 		}
 	}

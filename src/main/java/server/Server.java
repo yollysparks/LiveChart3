@@ -7,8 +7,6 @@ package server;
 
 import ca2.MessageChat;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -35,7 +35,7 @@ public class Server {
 	private int port;
 	// the boolean that will be turned of to stop the Server
 	private boolean startingUp;
-	
+	private final ExecutorService es = Executors.newCachedThreadPool();
 
 	/*
 	 *  Server constructor that receive the port to listen to for connection as parameter
@@ -70,13 +70,17 @@ public class Server {
 				// format message saying we are waiting
 				display("Server waiting for Clients on port " + port + ".");
 				
-				Socket socket = serverSocket.accept();  	// accept connection
-				// if I was asked to stop
+				ClientThread t = new ClientThread(serverSocket.accept());  	// accept connection
+			        al.add(t);
+                                es.execute(t);
+                                System.out.println("New client connected");
+// if I was asked to stop
 				if(!startingUp)
 					break;
-				ClientThread t = new ClientThread(socket);  // make a thread of it
+//				ClientThread t = new ClientThread(socket);  // make a thread of it
 				al.add(t);									// save it in the ArrayList
 				t.start();
+                               
 			}
                         
                         // I was asked to stop
@@ -143,7 +147,7 @@ public class Server {
 		
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
-for(int i = al.size(); --i >= 0;) {
+               for(int i = al.size(); --i >= 0;) {
 			ClientThread ct = al.get(i);
 			// try to write to the Client if it fails remove it from the list
 			if(!ct.writeMsg(messageLf)) {
@@ -174,7 +178,7 @@ for(int i = al.size(); --i >= 0;) {
 	 */
         public static void main(String[] args) {
 		// start Server on port 1500 unless a PortNumber is specified 
-		int portNumber = 8081;
+		int portNumber = 2222;
 		switch(args.length) {
 			case 1:
 				try {
@@ -245,7 +249,7 @@ public	class ClientThread extends Thread {
                 sInput = new Scanner(socket.getInputStream());
 
                 String inputLine;
-                String messageToClients = cm.getMessage();
+                String messageToClients ="";
                 while ((inputLine = sInput.nextLine()) != null) {// to loop until LOGOUT
                     if (inputLine.equals("STOP")) {
                         break;
@@ -253,7 +257,8 @@ public	class ClientThread extends Thread {
                     // read a String (which is an object)
                     messageToClients = sInput.next();
    // Switch on the type of message receive
-				switch(cm.getType()) {
+                    int type =cm.getType();
+				switch(type) {
 
                                     case 1:
                                         int message = MessageChat.MESSAGE;
