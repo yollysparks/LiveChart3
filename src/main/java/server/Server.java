@@ -260,7 +260,7 @@ public	class ClientThread extends Thread {
 
                                     case "MESSAGE":
                                         messageToClients = type[1];
-                                        String message= MessageChat.MESSAGE; 
+                                        String message = MessageChat.MESSAGE; 
 					broadcast(username + ": " + message);
 					break;
 				    case "LOGOUT":
