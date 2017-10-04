@@ -108,9 +108,9 @@ public class Client {
 	
 	public static void main(String[] args) {
 		// default values
-		int portNumber = 8081;
+		int portNumber = 2222;
 		String serverAddress = "localhost";
-		String userName = "yolanda";
+		String userName = "Anonymous";
 
 		// depending of the number of arguments provided we fall through
 		switch(args.length) {

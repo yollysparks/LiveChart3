@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -84,7 +87,11 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener{
 	public void actionPerformed(ActionEvent e) {
 		// if running we have to stop
 		if(server != null) {
-			server.stop();
+                    try {
+                        server.stop();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 			server = null;
 			tPortNumber.setEditable(true);
 			stopStart.setText("Start");
@@ -110,7 +117,7 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener{
 	// entry point to start the Server
 	public static void main(String[] arg) {
 		// start server default port 1500
-		new ServerGUI(1500);
+		new ServerGUI(2222);
 	}
 
 	/*
@@ -133,11 +140,17 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener{
 		System.exit(0);
 	}
 	// I can ignore the other WindowListener method
+    @Override
 	public void windowClosed(WindowEvent e) {}
+    @Override
 	public void windowOpened(WindowEvent e) {}
+    @Override
 	public void windowIconified(WindowEvent e) {}
+    @Override
 	public void windowDeiconified(WindowEvent e) {}
+    @Override
 	public void windowActivated(WindowEvent e) {}
+    @Override
 	public void windowDeactivated(WindowEvent e) {}
 
 	/*
@@ -146,7 +159,11 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener{
 public	class ServerRunning extends Thread {
                 @Override
 		public void run() {
-			server.start();         // should execute until if fails
+                    try {
+                        server.start(2222);         // should execute until if fails
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 			// the server failed
 			stopStart.setText("Start");
 			tPortNumber.setEditable(true);
