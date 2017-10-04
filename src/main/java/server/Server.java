@@ -257,18 +257,18 @@ public	class ClientThread extends Thread {
    // Switch on the type of message receive
                     String[] type = inputLine.split(":");
 				switch(type[0]) {
-
                                     case "MESSAGE":
+                                        String message = "";
                                         messageToClients = type[1];
-                                        String message = MessageChat.MESSAGE; 
+//                                      String message = MessageChat.MESSAGE; 
 					broadcast(username + ": " + message);
 					break;
 				    case "LOGOUT":
                                         messageToClients = type[1];
-					display(username + " disconnected with a LOGOUT message.");
+//					display(username + " disconnected with a LOGOUT message.");
 			                startingUp = false;
 					break;
-				    case "WHOISIN":
+				    case "WHOISIN":        
                                         messageToClients = type[1];
 					writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan al the users connected
