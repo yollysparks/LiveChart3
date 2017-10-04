@@ -19,17 +19,17 @@ public class MessageChat implements Serializable {
 	// WHOISIN to receive the list of the users connected
 	// MESSAGE an ordinary message
 	// LOGOUT to disconnect from the Server
-        public  static int WHOISIN = 0,MESSAGE = 1, LOGOUT = 2;
-	private int type;
+        public  static String WHOISIN = null,MESSAGE = " ", LOGOUT = " ";
+	private String type;
 	private String message;
 	
-	 public MessageChat(int type, String message) {
+	 public MessageChat(String type, String message) {
 		this.type = type;
 		this.message = message;
 	}
 
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 	public String getMessage() {

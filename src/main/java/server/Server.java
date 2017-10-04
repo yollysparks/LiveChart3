@@ -217,7 +217,7 @@ public	class ClientThread extends Thread {
 		String date;
 
 		
-		ClientThread(Socket socket) {
+	public	ClientThread(Socket socket) {
 			// a unique id
 			id = ++uniqueId;
                         id = ++uniqueId;
@@ -254,22 +254,22 @@ public	class ClientThread extends Thread {
                     if (inputLine.equals("STOP")) {
                         break;
                     }
-                    // read a String (which is an object)
-                    messageToClients = sInput.next();
    // Switch on the type of message receive
-                    int type =cm.getType();
-				switch(type) {
+                    String[] type = cm.getType().split(":");
+				switch(type[0]) {
 
-                                    case 1:
-                                        int message = MessageChat.MESSAGE;
+                                    case "MESSAGE":
+                                        messageToClients = type[1];
+                                        String message= MessageChat.MESSAGE; 
 					broadcast(username + ": " + message);
 					break;
-				    case 2:
-                                        int log = MessageChat.LOGOUT;
-					display(username + " disconnected with a LOGOUT message."+log);
+				    case "LOGOUT":
+                                        messageToClients = type[1];
+					display(username + " disconnected with a LOGOUT message.");
 			                startingUp = false;
 					break;
-				    case 3:
+				    case "WHOISIN":
+                                        messageToClients = type[1];
 					writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan al the users connected
 					for(int i = 0; i < al.size(); ++i) {
