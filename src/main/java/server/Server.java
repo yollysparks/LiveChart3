@@ -255,7 +255,7 @@ public	class ClientThread extends Thread {
                         break;
                     }
    // Switch on the type of message receive
-                    String[] type = cm.getType().split(":");
+                    String[] type = inputLine.split(":");
 				switch(type[0]) {
 
                                     case "MESSAGE":
