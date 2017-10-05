@@ -110,7 +110,7 @@ public class Client {
 		// default values
 		int portNumber = 2222;
 		String serverAddress = "localhost";
-		String userName = "Anonymous";
+		String userName = " ";
 
 		// depending of the number of arguments provided we fall through
 		switch(args.length) {

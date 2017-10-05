@@ -116,8 +116,8 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener{
 	
 	// entry point to start the Server
 	public static void main(String[] arg) {
-		// start server default port 1500
-		new ServerGUI(2222);
+        // start server default port 1500
+        ServerGUI serverGUI = new ServerGUI(2222);
 	}
 
 	/*

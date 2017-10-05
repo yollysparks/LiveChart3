@@ -62,14 +62,14 @@ public class Server {
     public void stop() throws IOException {
         serverSocket.close();
     }
-    private void display(String msg) {
+    public void display(String msg) {
 		String time = sdf.format(new Date()) + " " + msg;
 		if(sg == null)
 			System.out.println(time);
 		else
 			sg.appendEvent(time + "\n");
 	}
-    private synchronized void broadcast(String message) {
+    public synchronized void broadcast(String message) {
 		// add HH:mm:ss and \n to the message
 		String time = sdf.format(new Date());
 		String messageLf = time + " " + message + "\n";
@@ -103,12 +103,14 @@ public class Server {
         private Socket clientSocket;
         private PrintWriter output;
         private Scanner input;
-        private String username;
+        private  static String username;
+        boolean loginuser = true;
+        
         public EchoClientHandler(Socket socket) {
             this.clientSocket = socket;
         }
         
-        private boolean writeMsg(String msg) {
+        public boolean writeMsg(String msg) {
 			// if Client is still connected send the message to it
 			if(!clientSocket.isConnected()) {
                             return false;
@@ -121,7 +123,8 @@ public class Server {
        
         
         @Override
-        public void run() {      
+        public void run() { 
+            loginuser = true;
             try {
                 output = new PrintWriter(clientSocket.getOutputStream(), true);
                 input = new Scanner(clientSocket.getInputStream());
@@ -135,23 +138,30 @@ public class Server {
                     String[] parts = inputLine.split(":");
                     switch (parts[0]) {
                         case "LOGIN":
+                            username =input.nextLine();
                             messageToClients = parts[1].toUpperCase();
-                            String message="";
-                            System.out.println( username + ": " + message);
+                            
                             break;
                         case "MSG":
                             messageToClients = parts[1].toLowerCase();
-                            break;
+                            break;   
                         case "LOGOUT":
-                           
-                            
+                            loginuser = false;
                             break;
+                        case "CLIENTLIST":
+                            for(int i = 0; i < clients.size(); ++i) {
+                             EchoClientHandler ct = clients.get(i);
+                             writeMsg((i+1) + ") " + ct.username);
+                    }
+
+                            break;
+                        
                         default: {
                             messageToClients = inputLine;
                             break;
                         }
                     }
-
+                    
                     for (EchoClientHandler client : clients) {
                         if (client != this) {
                             if (!messageToClients.equals("")) {
