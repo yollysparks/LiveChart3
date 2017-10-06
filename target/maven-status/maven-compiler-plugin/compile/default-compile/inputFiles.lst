@@ -1,5 +1,6 @@
 C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\server\Server.java
-C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\server\ServerGUI.java
-C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\ca2\MessageChat.java
-C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\client\ClientGUI.java
+C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\client\ClientMessageHandler.java
+C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\GUI\ClientGUI.java
+C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\GUI\ServerGUI.java
+C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\server\ClientHandler.java
 C:\Users\felesiah\Documents\NetBeansProjects\CA2\CA2\src\main\java\client\Client.java

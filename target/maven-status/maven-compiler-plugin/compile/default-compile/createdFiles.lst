@@ -1,8 +1,0 @@
-client\Client.class
-client\Client$ListenFromServer.class
-server\ServerGUI.class
-server\ServerGUI$ServerRunning.class
-client\ClientGUI.class
-ca2\MessageChat.class
-server\Server.class
-server\Server$EchoClientHandler.class
