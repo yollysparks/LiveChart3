@@ -18,7 +18,7 @@ import java.util.Observer;
 public class ClientGUI extends javax.swing.JFrame {
 
     private ChatGUI client = null;
-    
+    private Observer observer;
     
     public ClientGUI(){
         init();
@@ -44,9 +44,11 @@ public class ClientGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            @Override
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -54,6 +56,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         connectButton.setText("Connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
             }
@@ -65,13 +68,14 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Username:");
 
-        IpAddress.setText("g3ralt.club");
+        IpAddress.setText("group3");
         IpAddress.setToolTipText("");
 
         portNumber.setText("8081");
         portNumber.setToolTipText("");
 
         messageInput.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 messageInputActionPerformed(evt);
             }
@@ -79,6 +83,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         sendMessageBtn.setText("Send");
         sendMessageBtn.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendMessageBtnActionPerformed(evt);
             }
@@ -173,11 +178,11 @@ public class ClientGUI extends javax.swing.JFrame {
         try {
             client = new ChatGUI (IP, port, name);
             
-            Observer observer = new Observer(client.getSocket(), chatHistory);
+//            Observer observer = new Observer(client.getSocket(), chatHistory);
             
             
              new Thread(client).start();
-            new Thread(observer).start();
+            new Thread((Runnable) observer).start();
         } catch (IOException ex) {
 
         }
@@ -219,14 +224,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Chat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ChatGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -234,6 +233,7 @@ public class ClientGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
            
+            @Override
             public void run() {
                 new ClientGUI().setVisible(true);
             }

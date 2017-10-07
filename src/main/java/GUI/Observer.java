@@ -34,6 +34,7 @@ private final JTextArea frame;
         this.isOn = false;
     }
     
+
     @Override
     public void run() {
         while(isOn) {

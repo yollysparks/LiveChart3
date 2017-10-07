@@ -1,0 +1,13 @@
+GUI\ServerGUI.class
+GUI\ClientGUI$2.class
+GUI\ClientGUI$5.class
+GUI\ChatGUI.class
+GUI\ClientGUI.class
+GUI\ClientGUI$1.class
+client\Client.class
+GUI\Observer.class
+GUI\ClientGUI$4.class
+server\ClientHandler.class
+client\ClientMessageHandler.class
+GUI\ClientGUI$3.class
+server\Server.class
